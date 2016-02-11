@@ -34,7 +34,7 @@ A manual fail-over solution for resources (ip, disk, lvm, filesystem, nfs-mount,
 
 
 ## Notes on filesystems:
-  Filesystems in /etc/fstab and tofo.conf must be set using the device-mapper device. do not use the symbolic link.
+  Filesystems in /etc/fstab and tofo.conf must be set using the device-mapper device. do not use the symbolic link.  
   For example:
   
     right:

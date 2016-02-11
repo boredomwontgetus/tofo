@@ -28,7 +28,7 @@ A manual fail-over solution for resources (ip, disk, lvm, filesystem, nfs-mount,
       gcc
       VxVM commands 	#if you are going to use VxVM instead of LVM
 
-### Files and direcotries
+### Files and directories
       '/proc/mounts' must be readable
       'sysfs' must be mounted and accesable
 

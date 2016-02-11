@@ -1,0 +1,94 @@
+* tofo.pl - 0.51   2013-08-13
+ - added cmdline switch "-scriptout": print stdout/stderr from pre/post scripts to tofo's formated-out;
+ - added ability to call tofo with abs_path(); see request in TODO
+
+* tofo.pl - 0.51   2013-07-03
+ - fixed a small bug that made the call --stop=pre_sh never work. in the calling function of run_pre_sh_offline;
+
+* tofo.pl - 0.50   2011-09-30
+ - Added a new ressource type: "route". enables the ability to set static routes after an interface had been brought up. this had been implemented because of the need to have routes to be set when the central-storage is a NAS box. in this case nfs-mount is forced to use the logical-(cluster) ip by a little routing trick.
+ 
+* tofo.pl - 0.49   2011-09-27
+ - Added feature request: added 2 --lstres and --lsthosts cmdline switches
+* tofo.pl - 0.48   2011-05-30
+ - Minor bugfix in stauts_ip(): calling tofo with --status=ip showed all ip's online even if they are offline. this due the change of 'system calls' in version 0.45
+
+* tofo.pl - 0.47   2010-11-05
+ - Minor bugfix in ip_online();
+
+* tofo.pl - 0.46   2010-11-04
+ - Minor bugfixes regarding nfs_online_postchk, nfs_status and VxVM stuff
+
+* tofo.pl - 0.45   2010-10-14
+ - changed the internal way how tofo calls system commands. it now uses a procedure that uses IPC::open3. this way we can cleanly catch STDOUT,STDERR and $?. this again makes it possible to implement a clean logging facility in upcoming releases.
+ - exported help- and srdf-procedure to external libs.
+ - fixed a bug. details see TODO (section DONE in 0.45)
+
+* tofo.pl - 0.40   2010-10-07
+ - fixed a horrible bug in post checking nfs-exports. tofo used showmount -e $HOSTNAME for doing so. this lead to missbehaviour if $HOSTNAME does not have an ip related in DNS or /etc/hosts.
+ - fixed a bug in nfs-mount routines. 
+
+* tofo.pl - 0.36   2010-10-07
+ - removed colorful output. it messed some terminals up. 
+ 
+* tofo.pl - 0.35   2010-07-06
+ - removed the RC value check of all script directives. this was pain in the arse 'cause a lot of scripts are poorly coded and return anything in a random situation. tofo now prints "RUN - NCHK" which means "RUN but NOT CHECKED"....more detail. it runs the script but does not check its RC value or anything else. --> fire and forget.
+
+* tofo.pl - 0.33   2010-06-21
+ - added VxVM support to the --status argument.
+ - andy and tom decided there is no need to have sanity-checks for VxVM volume. (see TODO for details)
+
+* tofo.pl - 0.32   2009-12-22
+ - bugfix: modified arping as requested by sysadmin to use the interface and also increased count from 1 to 3.
+
+* tofo.pl - 0.31   2009-07-14
+ - feature: added arping to ip when bringing ip's online. this will inform our neightbors about the new mac<->ip relationship. requested by sysadmin...see TODO
+
+* tofo.pl - 0.30   2009-07-07
+ - bugfix: SUSE only writes the mapper-device to /proc/mounts no matter if you mount your LV via mapper-dev or the symlink. this turned out to be  problematic in some post-chks. a bugfix has been implemented and the documentation (INSTALL) has been adapted. from now on the mapper-dev must be used in fstab and in tofo.conf
+
+* tofo.pl - 0.21-0.29 
+ - mainly small bugfixes.
+
+* tofo.pl - 0.20   2009-02-19
+ - rewritten whole output format. uses lib/output.pm now to make output look like a report. 
+ - changed status of LV now. check was always reported ONLINE
+ - implemented multiple lock-var's to lock down duplicate outputs if called from parent-subroutine
+
+* tofo.pl - 0.13   09-02-17
+ - on stop routines tofo will skip ip's that are already down and will not exit unsuccesfull anymore.
+
+* tofo.pl - 0.12   08-12-10
+ - Sysadmin reported that the vlan bugfix with the chars "+", "." etc etc in version 0.10 does not work on SuSE-linux since it uses names like "vlan100". We reversed that bugfix from version 0.10 and added a new tofo.conf option that says "vlan=0/1" for that purpose.
+
+* tofo.pl - 0.11   08-11-19
+ - fixed a bug reported by sysadmins: postscript routines used prescript routines config. postscripts never run.
+
+* tofo.pl - 0.10   08-11-14
+ - fixed a bug reported by sysadmins: characters like "+", "." etc etc in mountpoints caused a failure in unmounting filesystems. failure caused by "sub fs_deps";
+ - added the ability to skip link tests on VLAN-tagged devices. we just expect a devicename with a dot in it's name to be VLAN-tagged.
+ - changed return OK to NOK in status_link sub if there is no device to be checked and also added the VLAN-tagged device ability to this routine.
+
+* tofo.pl - 0.09   08-08-11
+ - implemented '-status' switch: list status of local ressources
+ - implemented '-nosanity' switch: diables sanity check before start routine if running "--start=all"
+ - already online ressource is not fatal anymore to ip_online, fs_online
+
+* tofo.pl - 0.08   08-06-19
+ - fixed a bug in nfs_online which cause shared filesystems to be readonly
+
+* tofo.pl - 0.07   08-06-18
+ - Implementation of VxVM for start/stop resource type vg; test routines lv and vg disabled if VxVM in use
+ - fixed a bug in helper routine for start/stop mounts 
+
+* tofo.pl - 0.06   08-06-17
+ - res_grp=all removed from possible cmdline swiches. RES_GRP's must be defined single on cmdline now --> suggested by sysadmins
+ - tofo.conf documentation added "unique identifier information on NFS* directives"
+ - Implementation of feature request: Do not run res_type if none specified in config file
+
+* tofo.pl - 0.05   08-06-02
+ - Feature implementation to support for working on multiple res_types at one time as requested by sysadmins
+
+* tofo.pl - 0.04   08-06-02
+ - Several bugs fixed which were discovered by sysadmins doing Alpha testing
+

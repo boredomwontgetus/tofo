@@ -1,0 +1,134 @@
+############################################
+#General Cluster Config			   
+############################################
+
+# This is a template configuration file to show which options
+# we can choose from and how they are meant to be used.
+# Copy this file to tofo.conf and modify it to your needs.
+
+# Give the two nodes you want to failover between. 
+# Must match uname -n and have a valid entry in /etc/hosts.
+node1=pizza_restaurant
+node2=ice_cream_parlour
+
+# In general it is a good idea to use LVM HostTags for what we do here.
+# So if we have configured tags on your LV's please choose '1' if not choose '0'.
+# WARNING: It is strongly recommended to use HostTags to preserve data integrity
+#          in case things go miserable wrong.
+
+DO_HAVE_VG_TAGS=1
+
+
+############################################
+#Resource Config			          
+############################################
+
+# This is our resource group configuration.
+# We can for sure use multiple resource but they must have unique names.
+# A resource group block starts with "<RES res_grp_name>" and ends with "</RES res_grp_name>".
+# We should mention our groups in the order you want them to be started if you do "-start=all -res_grp=all".
+
+# A res_grp named PIZZA
+<RES PIZZA>
+
+# Does this resource group use SRDF on an EMC storage?
+# DO_HAVE_SRDF=1 srdf is enabled
+# DO_HAVE_SRDF=0 srdf is disable
+DO_HAVE_SRDF=0
+
+# Set this to 1 if we do use VxVM intead of Linux LVM
+# DO_HAVE_VxVM=1 we use VxVM for your disks in this resource group
+# DO_HAVE_VxVM=0 we use LVM for your disks in this resource group
+DO_HAVE_VxVM=0
+
+	# A network interface named salami
+	# this name must be known to each system wether in /etc/hosts or DNS
+#	<NET salami>
+#		ip=1.1.1.1
+#		mask=255.255.255.0
+#		device=bond1
+#	</NET salami>
+
+        
+        # A network route (hostroute)
+#	<ROUTE salami_0>
+#		dest=1.1.1.10
+#		gw=1.1.1.254
+#		device=bond1
+#	</ROUTE salami_0>
+
+	# Another route (net route)
+#	<ROUTE salami_1>
+#		dest=1.1.2.0/24
+#		gw=1.1.1.254
+#		device=bond1
+#	</ROUTE salami_1>
+
+
+	# Another interface named cheese on bond0 (vlan tagged)
+#	<NET cheese>
+#		ip=1.1.1.2
+#		mask=255.255.255.0
+#		device=bond0.252
+#		vlan=1
+#	</NET cheese>
+
+	# Specify the LVM groups we want to use
+#	<LVMgroups>
+#		group1=EGGS_VG
+#		group2=HAM_VG
+#	</LVMgroups>
+
+	# Specify the LV we use but specify them by the device not the mountpoint.
+	# Use exactly the same device you used in /etc/fstab (!!! noauto !!!).
+	# State them in the order you want them to be mounted when the group is started
+#	<FS>
+#		fs1=/dev/mapper/HAM_VG-fat_lv
+#		fs1=/dev/mapper/HAM_VG-carb_lv
+#	</FS>
+	
+	# NFS filesystems you we to export 
+#	<NFSexport mushrooms>
+#		opt="-o rw,sync,no_root_squash"
+#		net="192.168.7.224/27"
+#		dir="/mushrooms"
+#	</NFSexport mushrooms>
+
+	# NFS filesystems you we to mount
+#	<NFSmount onion>
+#		opt="-o soft,rw,intr,bg"
+#		host="somehost"
+#		dev="/usr/sap/anything"
+#		mntpoint="/mnt/nfs1"
+#	</NFSmount onion>
+
+	# This script runs before anything else is run in the start routine.
+	# We can put whatever you want to in our script
+	# it is not checked for returncode or anything else.
+#	<RES_PRE_start>
+#		sh1="echo 111aaaahhhhhaaa111"		
+#	</RES_PRE_start>
+	
+	# This script runs after everything else is run in the start routine.
+	# We can put whatever you want to in our script
+	# it is not checked for returncode or anything else.
+#	<RES_POST_start>
+#		sh1="echo 222aaaahhhhhaaa222"		
+#	</RES_POST_start>
+
+	# This script runs before anything else is run in the stop routine.
+	# We can put whatever you want to in our script
+	# it is not checked for returncode or anything else.
+#	<RES_PRE_stop>
+#		sh1="ps aux"		
+#	</RES_PRE_stop>
+	
+	# This script runs after everything else is run in the stop routine
+	# We can put whatever you want to in our script
+	# it is not checked for returncode or anything else.
+#	<RES_POST_stop>
+#		sh1="echo 444aaaahhhhhaaa444"		
+#	</RES_POST_stop>
+
+# End of resgrp PIZZA
+</RES PIZZA>

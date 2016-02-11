@@ -1,0 +1,9 @@
+ * Check for processes when failing to unmount Filesystems (eg fuser), and ask user to kill them, and retry unmount
+
+ * start_all: if NFS-share is currently not reachable, tofo stops!
+	is it possible to bg this share and do next nfs-mounts and post-scripts,
+	or stop nfs-mount-routine and start with next (post-scripts).
+
+ * Implement logging to File
+
+ * do a smarter SRDF check -> only when needed and forcefully if tests are called in single shot mode
